@@ -5,7 +5,12 @@ class MainApp extends Component {
   render() {
     return(
       <div style={styles.mainApp}>
-        <p>This is the main app</p>
+        <div style={styles.left}>
+          <p>left</p>
+        </div>
+        <div style={styles.right}>
+          <p>Right</p>
+        </div>
       </div>
     );
   }
