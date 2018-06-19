@@ -3,12 +3,14 @@ import logo from './logo.svg';
 import './App.css';
 
 import ButtonAppBar from './components/ButtonAppBar';
+import MainApp from './components/MainApp';
 
 class App extends Component {
   render() {
     return (
       <div className="App" >
         <ButtonAppBar />
+        <MainApp />
       </div>
     );
   }
