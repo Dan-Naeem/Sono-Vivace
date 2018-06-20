@@ -13,7 +13,10 @@ const styles = {
   left: {
     width: '40%',
     overFlow: 'auto',
-    padding: '.5em'
+    padding: '.5em',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   right: {
     width: '60%',
@@ -25,6 +28,9 @@ const styles = {
     width: '100%',
     paddingTop: '100%',
     position: 'relative',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
   },
   musicPlayer: {
     position: 'absolute',
@@ -32,6 +38,10 @@ const styles = {
     left: '0',
     bottom: '0',
     right: '0',
+  },
+  image: {
+    width: '75%',
+    height: 'auto',
   },
   playlist: {
     border: '5px yellow solid',
