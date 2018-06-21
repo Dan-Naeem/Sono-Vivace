@@ -14,22 +14,37 @@ import CardActions from '@material-ui/core/CardActions';
 //static playlist
 const staticPlaylist = [
   {
-    url: 'https://www.bensound.com/royalty-free-music?download=dubstep',
-    cover: 'https://cps-static.rovicorp.com/3/JPG_500/MI0004/183/MI0004183636.jpg?partner=allrovi.com',
-    title: 'Despacito',
+    url: 'https://www.bensound.com/royalty-free-music?download=energy',
+    cover: 'https://images.rigzone.com/images/news/articles/n_152346.png',
+    title: 'song 1',
     artist: [
-      'Luis Fonsi',
-      'Daddy Yankee'
+      's1 artist'
     ]
   },
   {
     url: 'https://www.bensound.com/royalty-free-music?download=dubstep',
-    cover: 'https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiK0JGSw-LbAhURx1kKHUPIDQAQjRx6BAgBEAU&url=https%3A%2F%2Fstmed.net%2Fwallpaper-91028&psig=AOvVaw0sKuI0bLaNQ6fb5hS36qrs&ust=1529593816179831',
-    title: 'Bedtime Stories',
+    cover: 'https://i1.sndcdn.com/artworks-000200587463-228xaw-t500x500.jpg',
+    title: 'song 2',
     artist: [
-      'Jay Chou'
+      's2 artist'
     ]
-  }
+  },
+  {
+    url: 'https://www.bensound.com/royalty-free-music?download=energy',
+    cover: 'https://cdn.mos.cms.futurecdn.net/oZr3irkSDKpSSjmFkpgP6K.jpg',
+    title: 'song 3',
+    artist: [
+      's3 artist'
+    ]
+  },
+  {
+    url: 'https://www.bensound.com/royalty-free-music?download=dubstep',
+    cover: 'http://dayred.com/wp-content/uploads/2013/08/music-downloading-sites.jpg',
+    title: 'song 4',
+    artist: [
+      's4 artist'
+    ]
+  },
 ]
 
 class MainApp extends Component {
@@ -50,23 +65,26 @@ class MainApp extends Component {
     //setup up states
     this.setState({ playlist: staticPlaylist });
   };
-  handlePlay = () => {
-    this.setState({ playStatus: 'PLAYING' } );
-    console.log('playing');
+  previous = () => {
+    var newIndex = this.state.songIndex;
+    newIndex -= 1;
+    this.setState({songIndex: newIndex});
   };
-  handlePause = () => {
-    this.setState({ playStatus: 'PAUSED' });
-    console.log('paused');
+  next = () => {
+    var newIndex = this.state.songIndex;
+    newIndex += 1;
+    this.setState({songIndex: newIndex});
   };
   render() {
     console.log('playlist: ', this.state.playlist);
-    const title = (this.state.playlist.length)? this.state.playlist[0].title : "";
-    const artist = (this.state.playlist.length)? this.state.playlist[0].artist : "";
-    const cover = (this.state.playlist.length)? this.state.playlist[0].cover : "";
-    const url = (this.state.playlist.length)? this.state.playlist[0].url : "";
+    const title = (this.state.playlist.length)? this.state.playlist[this.state.songIndex].title : "";
+    const artist = (this.state.playlist.length)? this.state.playlist[this.state.songIndex].artist : "";
+    const cover = (this.state.playlist.length)? this.state.playlist[this.state.songIndex].cover : "";
+    const url = (this.state.playlist.length)? this.state.playlist[this.state.songIndex].url : "";
     return(
       <div style={styles.mainApp}>
         <div style={styles.left}>
+
           <div style={styles.musicPlayerContainer}>
             <Card style={styles.musicPlayer}>
 
@@ -79,9 +97,11 @@ class MainApp extends Component {
                   src={cover} />
               </div>
 
-              <audio controls className="player" preload="false" >
-               <source src={url} />
-              </audio>
+              <div >
+                <audio controls className="player" preload="false" >
+                 <source src={url} />
+                </audio>
+              </div>
 
               <div className="player-options">
                 <div className="player-buttons player-controls">
@@ -98,13 +118,11 @@ class MainApp extends Component {
             </Card>
           </div>
 
-
-
-
-
           <div style={styles.playlist}>
           </div>
+
         </div>
+
         <div style={styles.right}>
           <p>Right</p>
         </div>

@@ -24,7 +24,6 @@ const styles = {
     padding: '.5em'
   },
   musicPlayerContainer: {
-    border: '5px blue solid',
     width: '100%',
     paddingTop: '100%',
     position: 'relative',
@@ -38,10 +37,21 @@ const styles = {
     left: '0',
     bottom: '0',
     right: '0',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    borderRadius: '25px',
+  },
+  imageContainer: {
+    width: '50%',
+    height: '50%',
+    alignSelf: 'center',
   },
   image: {
-    width: '75%',
-    height: 'auto',
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    borderRadius: '25px',
   },
   playlist: {
     border: '5px yellow solid',
