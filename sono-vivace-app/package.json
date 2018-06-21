@@ -11,7 +11,12 @@
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
     "react-scripts": "1.1.4",
-    "spotify-web-api-js": "^0.24.0"
+    "spotify-web-api-js": "^0.24.0",
+    "cookie-parser": "^1.4.3",
+    "cors": "^2.8.4",
+    "express": "~4.16.0",
+    "querystring": "~0.2.0",
+    "request": "~2.83.0"
   },
   "scripts": {
     "start": "react-scripts start",

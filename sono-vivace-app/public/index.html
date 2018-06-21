@@ -23,22 +23,221 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
+    <style type="text/css">
+      #login, #loggedin {
+        display: none;
+      }
+      .text-overflow {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 500px;
+      }
+    </style>
   </head>
   <body>
     <noscript>
       You need to enable JavaScript to run this app.
     </noscript>
-    <div id="root"></div>
-    <!--
-      This HTML file is a template.
-      If you open it directly in the browser, you will see an empty page.
+    <div id="root">
+      <!--
+        This HTML file is a template.
+        If you open it directly in the browser, you will see an empty page.
 
-      You can add webfonts, meta tags, or analytics to this file.
-      The build step will place the bundled scripts into the <body> tag.
+        You can add webfonts, meta tags, or analytics to this file.
+        The build step will place the bundled scripts into the <body> tag.
 
-      To begin the development, run `npm start` or `yarn start`.
-      To create a production bundle, use `npm run build` or `yarn build`.
-    -->
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        To begin the development, run `npm start` or `yarn start`.
+        To create a production bundle, use `npm run build` or `yarn build`.
+      -->
+
+      <div class="container">
+        <div id="login">
+          <h1>This is an example of the Authorization Code flow</h1>
+          <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+        </div>
+        <div id="loggedin">
+          <div id="user-profile">
+          </div>
+          <div id="user-playlist">
+          </div>
+          <div id="oauth">
+          </div>
+          <button class="btn btn-default" id="obtain-new-token">Obtain new token using the refresh token</button>
+        </div>
+      </div>
+    </div>
+
+      <script id="user-profile-template" type="text/x-handlebars-template">
+        <h1>Logged in as {{display_name}}</h1>
+        <div class="media">
+          <div class="pull-left">
+            <img class="media-object" width="150" src="{{images.0.url}}" />
+          </div>
+          <div class="media-body">
+            <dl class="dl-horizontal">
+              <dt>Display name</dt><dd class="clearfix">{{display_name}}</dd>
+              <dt>Id</dt><dd>{{id}}</dd>
+              <dt>Email</dt><dd>{{email}}</dd>
+              <dt>Spotify URI</dt><dd><a href="{{external_urls.spotify}}">{{external_urls.spotify}}</a></dd>
+              <dt>Link</dt><dd><a href="{{href}}">{{href}}</a></dd>
+              <dt>Profile Image</dt><dd class="clearfix"><a href="{{images.0.url}}">{{images.0.url}}</a></dd>
+              <dt>Country</dt><dd>{{country}}</dd>
+            </dl>
+          </div>
+        </div>
+      </script>
+
+      <script id="user-playlist-template" type="text/x-handlebars-template">
+        <div class="media">
+          <div class="media-body">
+            <dl class="dl-horizontal">
+              <dt>Playlist URL</dt><dd>{{href}}</dd>
+              <dt>Playlist ID</dt><dd id='strange'>{{items.0.id}}</dd>
+              <dt>Playlist Name</dt><dd>{{items.0.name}}</dd>
+            </dl>
+          </div>
+        </div>
+      </script>
+
+      <script id="oauth-template" type="text/x-handlebars-template">
+        <h2>oAuth info</h2>
+        <dl class="dl-horizontal">
+          <dt>Access token</dt><dd class="text-overflow">{{access_token}}</dd>
+          <dt>Refresh token</dt><dd class="text-overflow">{{refresh_token}}</dd>
+        </dl>
+      </script>
+
+      <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+      <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+  <script>
+    (function() {
+
+      /**
+      * Obtains parameters from the hash of the URL
+      * @return Object
+      */
+      function getHashParams() {
+        var hashParams = {};
+        var e, r = /([^&;=]+)=?([^&;]*)/g,
+        q = window.location.hash.substring(1);
+        while ( e = r.exec(q)) {
+          hashParams[e[1]] = decodeURIComponent(e[2]);
+        }
+        return hashParams;
+      }
+
+
+      var userProfileSource = document.getElementById('user-profile-template').innerHTML,
+      userProfileTemplate = Handlebars.compile(userProfileSource),
+      userProfilePlaceholder = document.getElementById('user-profile');
+
+      var userPlaylistSource = document.getElementById('user-playlist-template').innerHTML,
+      userPlaylistTemplate = Handlebars.compile(userPlaylistSource),
+      userPlaylistPlaceholder = document.getElementById('user-playlist');
+
+      var userPlaylistTracksSource = document.getElementById('user-playlist-template').innerHTML,
+      userPlaylistTracksTemplate = Handlebars.compile(userPlaylistTracksSource),
+      userPlaylistTracksPlaceholder = document.getElementById('user-playlist');
+
+
+      var oauthSource = document.getElementById('oauth-template').innerHTML,
+      oauthTemplate = Handlebars.compile(oauthSource),
+      oauthPlaceholder = document.getElementById('oauth');
+
+      var params = getHashParams();
+
+      var access_token = params.access_token,
+      refresh_token = params.refresh_token,
+      error = params.error;
+
+      if (error) {
+        alert('There was an error during the authentication');
+      } else {
+        if (access_token) {
+          // render oauth info
+          oauthPlaceholder.innerHTML = oauthTemplate({
+            access_token: access_token,
+            refresh_token: refresh_token
+          });
+
+
+
+          $.ajax({
+            url: 'https://api.spotify.com/v1/me',
+            headers: {
+              'Authorization': 'Bearer ' + access_token
+            },
+            success: function(response) {
+              userProfilePlaceholder.innerHTML = userProfileTemplate(response);
+
+              $('#login').hide();
+              $('#loggedin').show();
+            }
+          });
+          var id;
+          var playlist_href;
+          $.ajax({
+            url: 'https://api.spotify.com/v1/me/playlists',
+            headers: {
+              'Authorization': 'Bearer ' + access_token
+            },
+            success: function(response) {
+              id =response.items[0].id;
+              playlist_href = response.items[0].href;
+
+              userPlaylistPlaceholder.innerHTML = userPlaylistTemplate(response);
+
+              $('#login').hide();
+              $('#loggedin').show();
+              $.get('https://api.spotify.com/v1/me/playlists/' + id + "/tracks -H \"Accept: application/json\" -H \"Content-Type: application/json\" -H \"Authorization: Bearer \"" + access_token ,function(data){
+                console.log("data", data);
+              })
+
+              $.get(playlist_href + '/tracks', function(data){
+                console.log("data", data);
+                res.render("/", {data:data})
+              })
+            }
+          });
+
+          $.ajax({
+            url: 'playlist_href',
+            headers: {
+              'Authorization': 'Bearer ' + access_token
+            },
+            success: function(response) {
+              console.log("response", response);
+              userProfilePlaceholder.innerHTML = userPlaylistTracksTemplate(response);
+
+              $('#login').hide();
+              $('#loggedin').show();
+            }
+          });
+
+        } else {
+          // render initial screen
+          $('#login').show();
+          $('#loggedin').hide();
+        }
+
+        document.getElementById('obtain-new-token').addEventListener('click', function() {
+          $.ajax({
+            url: '/refresh_token',
+            data: {
+              'refresh_token': refresh_token
+            }
+          }).done(function(data) {
+            access_token = data.access_token;
+            oauthPlaceholder.innerHTML = oauthTemplate({
+              access_token: access_token,
+              refresh_token: refresh_token
+            });
+          });
+        }, false);
+      }
+    })();
+  </script>
   </body>
 </html>
