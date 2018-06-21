@@ -5,11 +5,8 @@
   "dependencies": {
     "@material-ui/core": "^1.2.2",
     "@material-ui/icons": "^1.1.0",
-<<<<<<< HEAD
     "ajv": "^6.5.1",
-=======
     "classnames": "^2.2.6",
->>>>>>> 027bb38f0ac00fc0ee75fb04a294ee02f9d140cb
     "material-ui": "^0.20.1",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",

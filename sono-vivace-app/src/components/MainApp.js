@@ -11,11 +11,6 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardActions from '@material-ui/core/CardActions';
 
-//import sound
-import Sound from 'react-sound';
-import Audio from 'react-audioplayer';
-import MusicPlayer from 'react-responsive-music-player'
-
 //static playlist
 const staticPlaylist = [
   {
