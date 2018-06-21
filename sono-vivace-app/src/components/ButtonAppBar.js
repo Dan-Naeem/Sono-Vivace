@@ -33,7 +33,7 @@ function ButtonAppBar(props) {
           <Typography variant="title" color="inherit" className={classes.flex}>
             Sono Vivace
           </Typography>
-          <Button color="inherit">Button</Button>
+          <Button color="inherit" href='http://localhost:8888'> Login to Spotify</Button>
         </Toolbar>
       </AppBar>
     </div>
