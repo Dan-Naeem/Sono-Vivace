@@ -66,6 +66,11 @@ const styles = {
     borderRadius: '25px',
     width: '100%',
   },
+  button: {
+    width: '50%',
+    borderRadius: '15px',
+    margin: '5px',
+  },
   playlist: {
     // border: '5px orange solid',
     width: '100%',
@@ -92,7 +97,6 @@ const styles = {
     alignItems: 'center',
   },
   smallContainer: {
-    border: '5px red solid',
     width: '5em',
     height: '5em',
     maxHeight: '5em',
@@ -104,6 +108,25 @@ const styles = {
   },
 };
 
+const colorway = [
+  {
+    one: '#987186',
+    two: '#869871',
+    three: '#718698',
+  },
+  {
+    one: '#3d9887',
+    two: '#873d98',
+    three: '#98873d',
+  },
+  {
+    one: '#da8709',
+    two: '#09da87',
+    three: '#8709da',
+  },
+];
+
 export {
-  styles
+  styles,
+  colorway,
 };
