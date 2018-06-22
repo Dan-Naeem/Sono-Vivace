@@ -75,12 +75,28 @@ class MainApp extends Component {
   // search tracks whose name, album or artist contains 'Love'
   getSearchAlbums(){
     spotifyApi.searchTracks('Love')
-      .then(function(data) {
+      .then((data) => {
         console.log('Search by "Love"', data);
         console.log('Title:', data.tracks.items[0].name);
         console.log('Artist:', data.tracks.items[0].artists[0].name);
         console.log('MP3:', data.tracks.items[0].preview_url);
         console.log('Art:', data.tracks.items[0].album.images[1].url);
+        let newPlaylist = [];
+        for (let i = 0; i < data.tracks.items.length; i++){
+          let songObj = {
+            title: data.tracks.items[i].name,
+            cover: data.tracks.items[i].album.images[1].url,
+            artist: data.tracks.items[i].artists[0].name,
+            url: data.tracks.items[i].preview_url,
+          }
+          newPlaylist.push(songObj);
+        }
+
+        console.log("new p:", newPlaylist);
+        this.setState({
+          playlist: newPlaylist
+        });
+
       }, function(err) {
         console.error(err);
       });
@@ -237,7 +253,7 @@ class MainApp extends Component {
           </button>
           }
           { this.state.loggedIn &&
-            <button onClick={() => this.getSearchAlbums()}>
+            <button onClick={this.getSearchAlbums.bind(this)}>
               Search Love
             </button>
           }
