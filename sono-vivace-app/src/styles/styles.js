@@ -63,13 +63,35 @@ const styles = {
   search: {
     marginTop: '1em',
     marginBottom: '1em',
-    borderRadius: '25px',
+    borderRadius: '15px',
     width: '100%',
+  },
+  searchCard: {
+    marginTop: '1em',
+    marginBottom: '1em',
+    paddingTop: '1.5em',
+    paddingBottom: '.5em',
+    borderRadius: '15px',
+    width: '100%',
+    alignSelf: 'center',
+  },
+  searchField: {
+    margin: '.5em',
+    width: '75%',
+  },
+  searchButton: {
+    margin: '.5em',
+    width: '75%',
   },
   button: {
     width: '50%',
     borderRadius: '15px',
     margin: '5px',
+  },
+  loginButton: {
+    margin: '.5em',
+    width: '75%',
+    alignSelf: 'center',
   },
   playlist: {
     // border: '5px orange solid',
@@ -94,6 +116,14 @@ const styles = {
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  form: {
+    paddingLeft: '2em',
+    paddingRight: '2em',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
     alignItems: 'center',
   },
   smallContainer: {
