@@ -8,6 +8,11 @@ import {staticPlaylist} from '../playlist/staticPlaylist';
 //import Button
 import Button from '@material-ui/core/Button';
 
+// text fields
+import { withStyles } from "@material-ui/core/styles";
+import Input from "@material-ui/core/Input";
+import TextField from '@material-ui/core/TextField';
+
 //import card
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -35,6 +40,7 @@ class MainApp extends Component {
       playlistIndex: 0,
       songIndex: 0,
       location: "",
+      keyword: "",
     };
   }
   componentDidMount = () => {
@@ -73,8 +79,8 @@ class MainApp extends Component {
   }
 
   // search tracks whose name, album or artist contains 'Love'
-  searchSpotify(){
-    spotifyApi.searchTracks('Love')
+  searchSpotify(event){
+    spotifyApi.searchTracks(this.state.keyword)
       .then((data) => {
         console.log('Search by "Love"', data);
         console.log('Title:', data.tracks.items[0].name);
@@ -159,12 +165,17 @@ class MainApp extends Component {
     audio.play();
     this.setState({ songIndex: index });
   }
+  handleChange = keyword => event => {
+    this.setState({
+      [keyword]: event.target.value,
+    });
+  };
   render() {
     console.log('playlist: ', this.state.playlist);
     console.log("songIndex", this.state.songIndex);
 
       const name = (this.state.nowPlaying.name) ? this.state.nowPlaying.name : "nothing is playing now";
-      const src = (this.state.nowPlaying.albumArt) ? this.state.nowPlaying.albumArt : "https://s-media-cache-ak0.pinimg.com/originals/85/3b/91/853b91fc8508045350c2af7d8d79ae3d.jpg"
+
 
     const title = (this.state.playlist.length)? this.state.playlist[this.state.songIndex].title : "";
     const artist = (this.state.playlist.length)? this.state.playlist[this.state.songIndex].artist : "";
@@ -242,21 +253,19 @@ class MainApp extends Component {
 
           <a href='http://localhost:8888' > Login to Spotify </a>
           <div>
-            Now Playing: { name }
+            <form onSubmit={this.searchSpotify.bind(this)}>
+              <TextField
+                id="keyword"
+                label="keyword"
+                value={this.state.keyword}
+                onChange={this.handleChange('keyword')}
+                margin="normal"
+              />
+            { this.state.loggedIn &&
+              <Button type="submit" value="search">Search</Button>
+            }
+            </form>
           </div>
-          <div>
-            <img src={src} style={{ height: 150 }}/>
-          </div>
-          { this.state.loggedIn &&
-          <button onClick={() => this.getNowPlaying()}>
-            Check Now Playing
-          </button>
-          }
-          { this.state.loggedIn &&
-            <button onClick={this.searchSpotify.bind(this)}>
-              Search Love
-            </button>
-          }
 
         </div>
 
