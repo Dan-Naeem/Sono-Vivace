@@ -5,23 +5,25 @@
 
 html,
 body {
-  min-height: 100%;
+  /* min-height: 100%;
   min-height: 100vh;
+  max-height: 100vh; */
   font: 16px 'Roboto', Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
   padding: 0;
   margin: 0;
   background: #C2D0DE;
+  overflow: none;
 }
 
 .App {
+  /* border: 5px yellow solid; */
   text-align: center;
-  overflow: auto;
+  overflow: none;
   max-width: 100%;
   width: 100%;
   height: 100%;
-  min-height: 100%;
   min-height: 100vh;
   max-height: 100vh;
 }

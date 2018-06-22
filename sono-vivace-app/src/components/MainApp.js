@@ -2,41 +2,25 @@ import React, {Component, PropTypes} from 'react';
 import {styles} from '../styles/styles';
 import classnames from 'classnames';
 
+//static playlist
+import {staticPlaylist} from '../playlist/staticPlaylist';
+
 //import Button
 import Button from '@material-ui/core/Button';
 
 //import card
 import Card from '@material-ui/core/Card';
+import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardActions from '@material-ui/core/CardActions';
-
-//static playlist
-const staticPlaylist = [
-  {
-    url: 'https://www.bensound.com/royalty-free-music?download=dubstep',
-    cover: 'https://cps-static.rovicorp.com/3/JPG_500/MI0004/183/MI0004183636.jpg?partner=allrovi.com',
-    title: 'Despacito',
-    artist: [
-      'Luis Fonsi',
-      'Daddy Yankee'
-    ]
-  },
-  {
-    url: 'https://www.bensound.com/royalty-free-music?download=dubstep',
-    cover: 'https://www.google.com/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&cad=rja&uact=8&ved=2ahUKEwiK0JGSw-LbAhURx1kKHUPIDQAQjRx6BAgBEAU&url=https%3A%2F%2Fstmed.net%2Fwallpaper-91028&psig=AOvVaw0sKuI0bLaNQ6fb5hS36qrs&ust=1529593816179831',
-    title: 'Bedtime Stories',
-    artist: [
-      'Jay Chou'
-    ]
-  }
-]
 
 class MainApp extends Component {
   constructor() {
     super();
     this.state = {
       playlist: [],
+      playlistIndex: 0,
       songIndex: 0,
       location: "",
     };
@@ -48,25 +32,97 @@ class MainApp extends Component {
     // })
 
     //setup up states
-    this.setState({ playlist: staticPlaylist });
+    this.setState({ playlist: staticPlaylist[this.state.playlistIndex] });
   };
-  handlePlay = () => {
-    this.setState({ playStatus: 'PLAYING' } );
-    console.log('playing');
+  previous = () => {
+    var newIndex = this.state.songIndex;
+    newIndex -= 1;
+    if (newIndex < 0) {
+      console.log('out of bounds');
+    }
+    else {
+      this.setState({songIndex: newIndex});
+      const audio= document.getElementById("audio");
+      audio.setAttribute("src", "" );
+      audio.setAttribute("src", this.state.playlist[newIndex].url );
+      audio.play();
+      console.log('new song index: ', this.state.songIndex);
+    }
   };
-  handlePause = () => {
-    this.setState({ playStatus: 'PAUSED' });
-    console.log('paused');
+  next = () => {
+    var newIndex = this.state.songIndex;
+    newIndex += 1;
+    let length = this.state.playlist.length;
+    if (newIndex === length) {
+      console.log('out of bounds');
+    }
+    else {
+      this.setState({songIndex: newIndex});
+      const audio= document.getElementById("audio");
+      audio.setAttribute("src", "" );
+      audio.setAttribute("src", this.state.playlist[newIndex].url );
+      audio.play();
+      console.log('new song index: ', this.state.songIndex);
+    }
   };
+  playlistOne = () => {
+    console.log('ind b4', this.state.playlistIndex);
+    var newIndex = 0;
+    this.setState({playlistIndex: newIndex});
+    this.setState({songIndex: 0});
+    this.setState({playlist: staticPlaylist[this.state.playlistIndex]});
+    console.log('button pressed 1');
+    console.log('ind after', this.state.playlistIndex);
+  };
+  playlistTwo = () => {
+    console.log('ind b4', this.state.playlistIndex);
+    var newIndex = 1;
+    this.setState({playlistIndex: newIndex});
+    this.setState({songIndex: 0});
+    this.setState({playlist: staticPlaylist[this.state.playlistIndex]});
+    console.log('button pressed 2');
+    console.log('ind after', this.state.playlistIndex);
+  };
+  onClickSongItem = (i, event) => {
+    const index = i;
+    console.log("index is: ", index);
+    const audio= document.getElementById("audio");
+    audio.setAttribute("src", "" );
+    audio.setAttribute("src", this.state.playlist[index].url );
+    audio.play();
+    this.setState({ songIndex: index });
+;
+
+
+  }
   render() {
     console.log('playlist: ', this.state.playlist);
-    const title = (this.state.playlist.length)? this.state.playlist[0].title : "";
-    const artist = (this.state.playlist.length)? this.state.playlist[0].artist : "";
-    const cover = (this.state.playlist.length)? this.state.playlist[0].cover : "";
-    const url = (this.state.playlist.length)? this.state.playlist[0].url : "";
+    console.log("songIndex", this.state.songIndex);
+
+    const title = (this.state.playlist.length)? this.state.playlist[this.state.songIndex].title : "";
+    const artist = (this.state.playlist.length)? this.state.playlist[this.state.songIndex].artist : "";
+    const cover = (this.state.playlist.length)? this.state.playlist[this.state.songIndex].cover : "";
+    const url = (this.state.playlist.length)? this.state.playlist[this.state.songIndex].url : "";
+    console.log("url", url);
+    const playlist = this.state.playlist;
+    const allSongs = playlist.map((item, i) => (
+      <Card onClick={this.onClickSongItem.bind(this, i)} style={styles.songItem} key={i} >
+        <div style={styles.songContent}>
+          <div style={styles.smallContainer}>
+            <img
+              style={styles.smallImg}
+              src={item.cover}
+              />
+          </div>
+          <h3>{item.title}</h3>
+          <h5>{item.artist}</h5>
+        </div>
+      </Card>
+    ))
     return(
       <div style={styles.mainApp}>
         <div style={styles.left}>
+
           <div style={styles.musicPlayerContainer}>
             <Card style={styles.musicPlayer}>
 
@@ -79,9 +135,11 @@ class MainApp extends Component {
                   src={cover} />
               </div>
 
-              <audio controls className="player" preload="false" >
-               <source src={url} />
-              </audio>
+              <div >
+                <audio id="audio" controls className="player" preload="false" >
+                 <source id="source" src={url} />
+                </audio>
+              </div>
 
               <div className="player-options">
                 <div className="player-buttons player-controls">
@@ -98,15 +156,30 @@ class MainApp extends Component {
             </Card>
           </div>
 
-
-
-
-
-          <div style={styles.playlist}>
+          <div style={styles.search}>
+            <div style={styles.songContent}>
+              <Card
+                onClick={this.playlistOne}
+                style={styles.button}
+                >
+                <h1> 1 </h1>
+              </Card>
+              <Card
+                onClick={this.playlistTwo}
+                style={styles.button}
+                >
+                <h1> 2 </h1>
+              </Card>
+            </div>
           </div>
+
         </div>
+
         <div style={styles.right}>
-          <p>Right</p>
+
+        <div style={styles.playlist}>
+          { (allSongs) ? allSongs : null}
+        </div>
         </div>
       </div>
     );

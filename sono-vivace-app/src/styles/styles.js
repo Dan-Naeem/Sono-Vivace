@@ -1,30 +1,36 @@
 const styles = {
   mainApp: {
-    border: '5px red solid',
+    // border: '5px red solid',
     height: '100%',
     minHeight: '100%',
-    maxHeight: '100%',
-    margin: '.5em',
-    padding: '.5em',
+    padding: '.25em',
     display: 'flex',
     flexDirection: 'row',
     justifyContent: 'center',
+    overflow: 'none',
   },
   left: {
+    // border: '5px green solid',
+    overflow: 'auto',
     width: '40%',
-    overFlow: 'auto',
+    height: 'auto',
     padding: '.5em',
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
+    // justifyContent: 'center',
+    alignItem: 'center',
   },
   right: {
+    // border: '5px blue solid',
+    overflow: 'auto',
     width: '60%',
-    overFlow: 'auto',
-    padding: '.5em'
+    height: 'auto',
+    padding: '.5em',
+    display: 'flex',
+    flexDirection: 'column',
+    // justifyContent: 'center',
   },
   musicPlayerContainer: {
-    border: '5px blue solid',
     width: '100%',
     paddingTop: '100%',
     position: 'relative',
@@ -38,17 +44,89 @@ const styles = {
     left: '0',
     bottom: '0',
     right: '0',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-around',
+    borderRadius: '25px',
+  },
+  imageContainer: {
+    width: '50%',
+    height: '50%',
+    alignSelf: 'center',
   },
   image: {
-    width: '75%',
-    height: 'auto',
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
+    borderRadius: '25px',
+  },
+  search: {
+    marginTop: '1em',
+    marginBottom: '1em',
+    borderRadius: '25px',
+    width: '100%',
+  },
+  button: {
+    width: '50%',
+    borderRadius: '15px',
+    margin: '5px',
   },
   playlist: {
-    border: '5px yellow solid',
+    // border: '5px orange solid',
+    width: '100%',
     height: 'auto',
+    oveflow: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  songItem: {
+    width: '100%',
+    height: 'auto',
+    marginTop: '.25em',
+    marginBottom: '.25em',
+    borderRadius: '15px',
+    flexShrink: '0',
+  },
+  songContent: {
+    paddingLeft: '2em',
+    paddingRight: '2em',
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  smallContainer: {
+    width: '5em',
+    height: '5em',
+    maxHeight: '5em',
+  },
+  smallImg: {
+    width: '100%',
+    height: '100%',
+    objectFit: 'cover',
   },
 };
 
+const colorway = [
+  {
+    one: '#987186',
+    two: '#869871',
+    three: '#718698',
+  },
+  {
+    one: '#3d9887',
+    two: '#873d98',
+    three: '#98873d',
+  },
+  {
+    one: '#da8709',
+    two: '#09da87',
+    three: '#8709da',
+  },
+];
+
 export {
-  styles
+  styles,
+  colorway,
 };

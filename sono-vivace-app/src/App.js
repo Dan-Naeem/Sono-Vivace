@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from "axios";
 
+import {styles} from './styles/styles';
+
 import ButtonAppBar from './components/ButtonAppBar';
 import MainApp from './components/MainApp';
 
@@ -53,6 +55,8 @@ render() {
 
   return (
     <div className="App">
+      <ButtonAppBar />
+      <MainApp />
       <a href='http://localhost:8888' > Login to Spotify </a>
       <div>
         Now Playing: { name }
