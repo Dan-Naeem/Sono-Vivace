@@ -15,47 +15,12 @@ import CardContent from '@material-ui/core/CardContent';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardActions from '@material-ui/core/CardActions';
 
-//static playlist
-const staticPlaylist = [
-  {
-    url: 'https://www.bensound.com/royalty-free-music?download=betterdays',
-    cover: 'https://i.vimeocdn.com/portrait/2887786_300x300',
-    title: 'Better Days',
-    artist: [
-      'Jon Jonson'
-    ]
-  },
-  {
-    url: 'https://www.bensound.com/royalty-free-music?download=dubstep',
-    cover: 'https://i1.sndcdn.com/artworks-000200587463-228xaw-t500x500.jpg',
-    title: 'Wubba Lub Dub',
-    artist: [
-      'Killex'
-    ]
-  },
-  {
-    url: 'https://www.bensound.com/royalty-free-music?download=energy',
-    cover: 'https://cdn.mos.cms.futurecdn.net/oZr3irkSDKpSSjmFkpgP6K.jpg',
-    title: 'Energy',
-    artist: [
-      'Amigo Raul'
-    ]
-  },
-  {
-    url: 'https://www.bensound.com/royalty-free-music?download=buddy',
-    cover: 'https://www.bensound.com/bensound-img/buddy.jpg',
-    title: 'Buddy',
-    artist: [
-      'Little Tay-thoven'
-    ]
-  },
-]
-
 class MainApp extends Component {
   constructor() {
     super();
     this.state = {
       playlist: [],
+      playlistIndex: 0,
       songIndex: 0,
       location: "",
     };
@@ -67,7 +32,7 @@ class MainApp extends Component {
     // })
 
     //setup up states
-    this.setState({ playlist: staticPlaylist });
+    this.setState({ playlist: staticPlaylist[this.state.playlistIndex] });
   };
   previous = () => {
     var newIndex = this.state.songIndex;
@@ -99,6 +64,24 @@ class MainApp extends Component {
       audio.play();
       console.log('new song index: ', this.state.songIndex);
     }
+  };
+  playlistOne = () => {
+    console.log('ind b4', this.state.playlistIndex);
+    var newIndex = 0;
+    this.setState({playlistIndex: newIndex});
+    this.setState({songIndex: 0});
+    this.setState({playlist: staticPlaylist[this.state.playlistIndex]});
+    console.log('button pressed 1');
+    console.log('ind after', this.state.playlistIndex);
+  };
+  playlistTwo = () => {
+    console.log('ind b4', this.state.playlistIndex);
+    var newIndex = 1;
+    this.setState({playlistIndex: newIndex});
+    this.setState({songIndex: 0});
+    this.setState({playlist: staticPlaylist[this.state.playlistIndex]});
+    console.log('button pressed 2');
+    console.log('ind after', this.state.playlistIndex);
   };
   onClickSongItem = (i, event) => {
     const index = i;
@@ -173,11 +156,22 @@ class MainApp extends Component {
             </Card>
           </div>
 
-          <Card style={styles.search}>
-            <CardHeader
-              title="Search for playlist"
-              />
-          </Card>
+          <div style={styles.search}>
+            <div style={styles.songContent}>
+              <Card
+                onClick={this.playlistOne}
+                style={styles.button}
+                >
+                <h1> 1 </h1>
+              </Card>
+              <Card
+                onClick={this.playlistTwo}
+                style={styles.button}
+                >
+                <h1> 2 </h1>
+              </Card>
+            </div>
+          </div>
 
         </div>
 
