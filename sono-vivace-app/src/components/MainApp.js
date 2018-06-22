@@ -73,7 +73,7 @@ class MainApp extends Component {
   }
 
   // search tracks whose name, album or artist contains 'Love'
-  getSearchAlbums(){
+  searchSpotify(){
     spotifyApi.searchTracks('Love')
       .then((data) => {
         console.log('Search by "Love"', data);
@@ -253,7 +253,7 @@ class MainApp extends Component {
           </button>
           }
           { this.state.loggedIn &&
-            <button onClick={this.getSearchAlbums.bind(this)}>
+            <button onClick={this.searchSpotify.bind(this)}>
               Search Love
             </button>
           }
