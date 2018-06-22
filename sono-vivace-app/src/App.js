@@ -6,8 +6,8 @@ import ButtonAppBar from './components/ButtonAppBar';
 import MainApp from './components/MainApp';
 
 // spotify library to handle api requests
-var SpotifyWebApi = require('spotify-web-api-js');
-const spotifyWebApi = new SpotifyWebApi();
+import SpotifyWebApi from "spotify-web-api-js";
+const spotifyApi = new SpotifyWebApi();
 
 class App extends Component {
   constructor(){
@@ -15,7 +15,7 @@ class App extends Component {
     const params = this.getHashParams();
     const token = params.access_token;
     if (token) {
-      spotifyWebApi.setAccessToken(token);
+      spotifyApi.setAccessToken(token);
     }
     this.state = {
       loggedIn: token ? true : false,
@@ -35,51 +35,39 @@ class App extends Component {
     return hashParams;
   }
 
-  getNowPlaying = () => {
-    // get Elvis' albums, passing a callback. When a callback is passed, no Promise is returned
-    spotifyWebApi.getArtistAlbums('43ZHCT0cAZBISjO8DG9PnE', function(err, data) {
-      if (err) console.error(err);
-      else {
-        console.log('Artist albums', data);
-        console.log('Album name', data.items[0].name);
-        console.log('Album image', data.items[0].images[1].url);
-        /*this.setState({
-          nowPlaying: {
-              name: data.items[0].name,
-              albumArt: data.items[0].images[1].url
-            }
-        });*/
-      }
-    /*
-    spotifyWebApi.getMyCurrentPlaybackState()
-      .then((response) => {
-        this.setState({
-          nowPlaying: {
-              name: response.item.name,
-              albumArt: response.item.album.images[0].url
-            }
-        });
-      })*/
-    });
-  }
-  render() {
-    return (
-      <div className="App">
-        <a href='http://localhost:8888' > Login to Spotify </a>
-        <div>
-          Now Playing: { this.state.nowPlaying.name }
-        </div>
-        <div>
-          <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }}/>
-        </div>
-        { this.state.loggedIn &&
-          <button onClick={() => this.getNowPlaying()}>
-            Check Now Playing
-          </button>
-        }
+  getNowPlaying(){
+  spotifyApi.getMyCurrentPlaybackState()
+    .then((response) => {
+      this.setState({
+        nowPlaying: {
+            name: response.item.name,
+            albumArt: response.item.album.images[0].url
+          }
+      });
+      console.log("response", response);
+    })
+}
+render() {
+  const name = (this.state.nowPlaying.name) ? this.state.nowPlaying.name : "nothing is playing now";
+  const src = (this.state.nowPlaying.albumArt) ? this.state.nowPlaying.albumArt : "https://s-media-cache-ak0.pinimg.com/originals/85/3b/91/853b91fc8508045350c2af7d8d79ae3d.jpg"
+
+  return (
+    <div className="App">
+      <a href='http://localhost:8888' > Login to Spotify </a>
+      <div>
+        Now Playing: { name }
       </div>
-    );
-  }
+      <div>
+        <img src={src} style={{ height: 150 }}/>
+      </div>
+      { this.state.loggedIn &&
+      <button onClick={() => this.getNowPlaying()}>
+        Check Now Playing
+      </button>
+    }
+    </div>
+  );
+}
 }
 
 export default App;
