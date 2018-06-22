@@ -66,6 +66,11 @@ const styles = {
     borderRadius: '25px',
     width: '100%',
   },
+  button: {
+    width: '50%',
+    borderRadius: '15px',
+    margin: '5px',
+  },
   playlist: {
     // border: '5px orange solid',
     width: '100%',
