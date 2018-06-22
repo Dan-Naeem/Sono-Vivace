@@ -2,6 +2,9 @@ import React, {Component, PropTypes} from 'react';
 import {styles} from '../styles/styles';
 import classnames from 'classnames';
 
+//static playlist
+import {staticPlaylist} from '../playlist/staticPlaylist';
+
 //import Button
 import Button from '@material-ui/core/Button';
 
