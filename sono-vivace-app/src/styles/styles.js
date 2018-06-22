@@ -106,6 +106,14 @@ const styles = {
     height: '100%',
     objectFit: 'cover',
   },
+  smallTitle: {
+    width: 'auto',
+  },
+  smallArtist: {
+    width: '10em',
+    maxWidth: '10em',
+    minWidth: '10em',
+  },
 };
 
 const colorway = [

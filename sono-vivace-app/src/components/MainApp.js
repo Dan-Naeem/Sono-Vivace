@@ -173,7 +173,11 @@ class MainApp extends Component {
     console.log("url", url);
     const playlist = this.state.playlist;
     const allSongs = playlist.map((item, i) => (
-      <Card onClick={this.onClickSongItem.bind(this, i)} style={styles.songItem} key={i} >
+      <Card
+        onClick={this.onClickSongItem.bind(this, i)}
+        style={styles.songItem}
+        key={i}
+        >
         <div style={styles.songContent}>
           <div style={styles.smallContainer}>
             <img
@@ -181,8 +185,12 @@ class MainApp extends Component {
               src={item.cover}
               />
           </div>
-          <h3>{item.title}</h3>
-          <h5>{item.artist}</h5>
+          <h3 style={styles.smallTitle}>
+            {item.title}
+          </h3>
+          <h5 style={styles.smallArtist}>
+            {item.artist}
+          </h5>
         </div>
       </Card>
     ))
