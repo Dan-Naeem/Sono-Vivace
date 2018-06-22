@@ -242,6 +242,33 @@ class MainApp extends Component {
             </Card>
           </div>
 
+          <Card style={styles.searchCard}>
+            <form
+              onSubmit={this.searchSpotify.bind(this)}
+              style={styles.form}
+              >
+              <TextField
+                id="keyword"
+                label="keyword"
+                value={this.state.keyword}
+                onChange={this.handleChange('keyword')}
+                margin="normal"
+                style={styles.searchField}
+              />
+            { this.state.loggedIn &&
+              <Button
+                type="submit"
+                value="search"
+                variant='contained'
+                color='primary'
+                style={styles.searchButton}
+                >
+                Search
+              </Button>
+            }
+            </form>
+          </Card>
+
           <div style={styles.search}>
             <div style={styles.songContent}>
               <Card
@@ -259,21 +286,13 @@ class MainApp extends Component {
             </div>
           </div>
 
-          <a href='http://localhost:8888' > Login to Spotify </a>
-          <div>
-            <form onSubmit={this.searchSpotify.bind(this)}>
-              <TextField
-                id="keyword"
-                label="keyword"
-                value={this.state.keyword}
-                onChange={this.handleChange('keyword')}
-                margin="normal"
-              />
-            { this.state.loggedIn &&
-              <Button type="submit" value="search">Search</Button>
-            }
-            </form>
-          </div>
+          <Button
+            variant='contained'
+            color='primary'
+            style={styles.loginButton}
+            >
+            <a href='http://localhost:8888' > Login to Spotify </a>
+          </Button>
 
         </div>
 
